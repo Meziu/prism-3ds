@@ -171,19 +171,17 @@ void shootersProcess()
         {
             Shooter* curShooter = &shooters[i];
 
-            if (curShooter->movementTimer == 0)
+            if (curShooter->movementTimer-- == 0)
             {
                 curShooter->velocity = sign(player.position.x - curShooter->position.x) * 0.5f;
                 curShooter->movementTimer = 120;
             }
-            curShooter->movementTimer--;
 
-            if (curShooter->shootingTimer == 0)
+            if (curShooter->shootingTimer-- == 0)
             {
                 newBullet(createVector2D(curShooter->position.x, curShooter->position.y+20), false, TOP_SCREEN);
                 curShooter->shootingTimer = 102;
             }
-            curShooter->shootingTimer--;
 
             curShooter->position.x += curShooter->velocity;
 

@@ -88,7 +88,7 @@ void bulletsProcess()
             bulletScreenWarp(curBullet);
 
             if ((curBullet->currentScreen == TOP_SCREEN && curBullet->friendly) ||
-                (curBullet->currentScreen == BOT_SCREEN && curBullet->friendly))
+                (curBullet->currentScreen == BOT_SCREEN && !curBullet->friendly))
             {
                 bulletCheckCollisions(curBullet);
             }
@@ -111,10 +111,12 @@ void bulletCheckCollisions(Bullet* b)
         {
             if (aliens[a].alive)
             {
-                bool collision = checkCollision(&b->bulletBox, &aliens[a].alienBox);
+                Alien* curHitAlien = &aliens[a];
+
+                bool collision = checkCollision(&b->bulletBox, &curHitAlien->alienBox);
                 if (collision)
                 {
-                    killAlien(&aliens[a]);
+                    killAlien(curHitAlien);
                     killBullet(b);
                     arcade_currentKillCounter++;
                     arcade_currentScore += 50;
@@ -126,10 +128,12 @@ void bulletCheckCollisions(Bullet* b)
         {
             if (shooters[s].alive)
             {
-                bool collision = checkCollision(&b->bulletBox, &shooters[s].shooterBox);
+                Shooter* curHitShooter = &shooters[s];
+
+                bool collision = checkCollision(&b->bulletBox, &curHitShooter->shooterBox);
                 if (collision)
                 {
-                    killShooter(&shooters[s]);
+                    killShooter(curHitShooter);
                     killBullet(b);
                     arcade_currentKillCounter++;
                     arcade_currentScore += 100;

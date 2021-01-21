@@ -129,7 +129,7 @@ void gameInit()
     intermissionTimer = 180;
 
     clearColor = GAME_BG_COLOR;
-    //initPlayer();
+    initPlayer();
 
     arcade_currentKillCounter = 0;
     calculateKillNeeded();

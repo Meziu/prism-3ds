@@ -122,7 +122,7 @@ int main()
 		if (currentScene == SCENE_MENU)
 			mainMenuProcess();
 		else if (currentScene == SCENE_GAME)
-			printf("pog"); //gameProcess();
+			gameProcess();
 		else if (currentScene == SCENE_ENDGAME)
 			endMatchProcess();
 		else if (currentScene == SCENE_INTERMISSION)
