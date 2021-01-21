@@ -13,13 +13,13 @@ int game_totalCoins;
 
 int intermissionTimer;
 
-int scoreTextID;
+Text* scoreText;
 char scoreTextStr[20];
 
-int killCounterTextID;
+Text* killCounterText;
 char killCounterTextStr[30];
 
-int roundCounterTextID;
+Text* roundCounterText;
 char roundCounterTextStr[20];
 
 void setDefaultArcadeValues()
@@ -135,13 +135,13 @@ void gameInit()
     calculateKillNeeded();
 
     sprintf(scoreTextStr, "Score: %d", arcade_currentScore);
-    scoreTextID = newText(createVector2D(15, 10), 0.5f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignLeft, scoreTextStr, false);
+    scoreText = newText(createVector2D(15, 10), 0.5f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignLeft, scoreTextStr, false);
 
     sprintf(killCounterTextStr, "Kills: %d/%d", arcade_currentKillCounter, arcade_currentKillNeeded);
-    killCounterTextID = newText(createVector2D(BOT_SCREEN_WIDTH-15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignRight, killCounterTextStr, false);
+    killCounterText = newText(createVector2D(BOT_SCREEN_WIDTH-15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignRight, killCounterTextStr, false);
 
     sprintf(roundCounterTextStr, "Round: %d", arcade_currentLevel);
-    roundCounterTextID = newText(createVector2D(15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignLeft, roundCounterTextStr, true);
+    roundCounterText = newText(createVector2D(15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignLeft, roundCounterTextStr, true);
 }
 
 void gameProcess()
@@ -154,10 +154,10 @@ void gameProcess()
     C2D_TextBufClear(g_dynamicBuf);
 
     sprintf(scoreTextStr, "Score: %d", arcade_currentScore);
-    changeTextStr(scoreTextID, scoreTextStr);
+    changeTextStr(scoreText, scoreTextStr);
 
     sprintf(killCounterTextStr, "Kills: %d/%d", arcade_currentKillCounter, arcade_currentKillNeeded);
-    changeTextStr(killCounterTextID, killCounterTextStr);
+    changeTextStr(killCounterText, killCounterTextStr);
 
     bulletsProcess();
 

@@ -19,16 +19,16 @@ typedef struct
 
     bool currentScreen;
 
-    int bullet_spriteID;
-    int bulletID;
+    Sprite* bullet_sprite;
 } Bullet;
 
 extern Bullet bulletList[MAX_BULLETS];
 extern size_t bulletCount;
 
-int newBullet(Vector2D pos, bool p_friendly, bool p_screen);
-void bulletsProcess();
-void bulletCheckCollisions(int p_bulletID);
+Bullet* newBullet(Vector2D pos, bool p_friendly, bool p_screen);
 
-void killBullet(int p_bulletID);
+void bulletsProcess();
+void bulletCheckCollisions(Bullet* b);
+
+void killBullet(Bullet* b);
 void killAllBullets();

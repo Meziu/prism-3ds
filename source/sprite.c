@@ -4,35 +4,35 @@ C2D_SpriteSheet spriteSheet;
 Sprite sprites[MAX_SPRITES];
 size_t numSprites = 0;
 
-int newSprite(bool pscreen, int usedFrame, Vector2D pos, int angle)
+Sprite* newSprite(bool pscreen, int usedFrame, Vector2D pos, int angle)
 {
     for (int i = 0; i < MAX_SPRITES; i++)
 	{
         if (!sprites[i].used)
         {
-            Sprite* newSprite = &sprites[i];
+            Sprite* nSprite = &sprites[i];
 
-            newSprite->used = true;
-            newSprite->screen = pscreen;
+            nSprite->used = true;
+            nSprite->screen = pscreen;
 
             // Random image, position, rotation and speed
-            C2D_SpriteFromSheet(&newSprite->spr, spriteSheet, usedFrame);
-            C2D_SpriteSetCenter(&newSprite->spr, 0.5f, 0.5f);
-            C2D_SpriteSetPos(&newSprite->spr, (int)pos.x, (int)pos.y);
+            C2D_SpriteFromSheet(&nSprite->spr, spriteSheet, usedFrame);
+            C2D_SpriteSetCenter(&nSprite->spr, 0.5f, 0.5f);
+            C2D_SpriteSetPos(&nSprite->spr, (int)pos.x, (int)pos.y);
             
-            C2D_SpriteSetRotation(&newSprite->spr, C3D_Angle(angle));
+            C2D_SpriteSetRotation(&nSprite->spr, C3D_Angle(angle));
 
             numSprites++;
-            return i;
+            return nSprite;
         }
     }
     svcBreak(USERBREAK_PANIC);
-    return -1;
+    return NULL;
 }
 
-void killSprite(int spriteID)
+void killSprite(Sprite* s)
 {
-    sprites[spriteID].used = false;
+    s->used = false;
     numSprites--;
 }
 
@@ -40,6 +40,6 @@ void killAllSprites()
 {
     for (int i = 0; i < MAX_SPRITES; i++)
 	{
-        killSprite(i);
+        killSprite(&sprites[i]);
     }
 }

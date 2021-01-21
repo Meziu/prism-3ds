@@ -3,74 +3,75 @@
 Bullet bulletList[MAX_BULLETS];
 size_t bulletCount;
 
-int newBullet(Vector2D pos, bool p_friendly, bool p_screen)
+Bullet* newBullet(Vector2D pos, bool p_friendly, bool p_screen)
 {
     for (size_t i=0; i<MAX_BULLETS; i++)
     {
         if (!bulletList[i].fired)
         {
-            bulletList[i].position = pos;
-            bulletList[i].currentScreen = p_screen;
-            bulletList[i].bulletID = i;
-            bulletList[i].friendly = p_friendly;
+            Bullet* newBullet = &bulletList[i];
+
+            newBullet->position      = pos;
+            newBullet->currentScreen = p_screen;
+            newBullet->friendly      = p_friendly;
             
             if (p_friendly)
             {
-                bulletList[i].bullet_spriteID = newSprite(p_screen, BULLET_SPRITE, pos, 0);
+                newBullet->bullet_sprite = newSprite(p_screen, BULLET_SPRITE, pos, 0);
             }
             else
             {
-                bulletList[i].bullet_spriteID = newSprite(p_screen, BULLET_E_SPRITE, pos, 0);
+                newBullet->bullet_sprite = newSprite(p_screen, BULLET_E_SPRITE, pos, 0);
             }
             
-            bulletList[i].bulletBox = newCollisionBox(pos, createVector2D(12, 20));
+            newBullet->bulletBox = newCollisionBox(pos, createVector2D(12, 20));
 
-            bulletList[i].fired = true;
+            newBullet->fired = true;
 
             bulletCount++;
 
-            return i;
+            return newBullet;
         }
     }
-    return -1;
+    return NULL;
 }
 
 
-void updateBulletSprite(int p_bulletID)
+void updateBulletSprite(Bullet* b)
 {
-    C2D_SpriteSetPos(&sprites[bulletList[p_bulletID].bullet_spriteID].spr, (int)bulletList[p_bulletID].position.x, (int)bulletList[p_bulletID].position.y);
-    sprites[bulletList[p_bulletID].bullet_spriteID].screen = bulletList[p_bulletID].currentScreen;
+    C2D_SpriteSetPos(&b->bullet_sprite->spr, (int)b->position.x, (int)b->position.y);
+    b->bullet_sprite->screen = b->currentScreen;
 }
 
-void bulletScreenWarp(int p_bulletID)
+void bulletScreenWarp(Bullet* b)
 {
-    if (bulletList[p_bulletID].friendly)
+    if (b->friendly)
     {
-        if (bulletList[p_bulletID].position.y < -30)
+        if (b->position.y < -30)
         {
-            if (bulletList[p_bulletID].currentScreen == TOP_SCREEN)
-                killBullet(p_bulletID);
-            else if (bulletList[p_bulletID].currentScreen == BOT_SCREEN)
+            if (b->currentScreen == TOP_SCREEN)
+                killBullet(b);
+            else if (b->currentScreen == BOT_SCREEN)
             {
-                bulletList[p_bulletID].currentScreen = TOP_SCREEN;
-                bulletList[p_bulletID].position.y = SCREEN_HEIGHT+10;
-                bulletList[p_bulletID].position.x += 40;
+                b->currentScreen = TOP_SCREEN;
+                b->position.y = SCREEN_HEIGHT+10;
+                b->position.x += 40;
             }
         }
     }
     else
     {
-        if (bulletList[p_bulletID].position.y > SCREEN_HEIGHT+30)
+        if (b->position.y > SCREEN_HEIGHT+30)
         {
-            if (bulletList[p_bulletID].currentScreen == TOP_SCREEN)
+            if (b->currentScreen == TOP_SCREEN)
             {
-                bulletList[p_bulletID].currentScreen = BOT_SCREEN;
-                bulletList[p_bulletID].position.y = -10;
-                bulletList[p_bulletID].position.x -= 40;
+                b->currentScreen = BOT_SCREEN;
+                b->position.y = -10;
+                b->position.x -= 40;
             }
-            else if (bulletList[p_bulletID].currentScreen == BOT_SCREEN)
+            else if (b->currentScreen == BOT_SCREEN)
             {
-                killBullet(p_bulletID);
+                killBullet(b);
             }
         }
     }
@@ -82,37 +83,41 @@ void bulletsProcess()
     {
         if (bulletList[i].fired)
         {
-            bulletScreenWarp(i);
+            Bullet* curBullet = &bulletList[i];
 
-            if ((bulletList[i].currentScreen == TOP_SCREEN && bulletList[i].friendly) ||
-                (bulletList[i].currentScreen == BOT_SCREEN && !bulletList[i].friendly))
+            bulletScreenWarp(curBullet);
+
+            if ((curBullet->currentScreen == TOP_SCREEN && curBullet->friendly) ||
+                (curBullet->currentScreen == BOT_SCREEN && !curBullet->friendly))
             {
-                bulletCheckCollisions(i);
+                bulletCheckCollisions(curBullet);
             }
             
 
-            bulletList[i].friendly ? (bulletList[i].position.y -= 3) : (bulletList[i].position.y += 3);
+            curBullet->friendly ? (curBullet->position.y -= 3) : (curBullet->position.y += 3);
 
-            updateBulletSprite(i);
+            updateBulletSprite(curBullet);
         }
     }
 }
 
-void bulletCheckCollisions(int p_bulletID)
+void bulletCheckCollisions(Bullet* b)
 {
-    bulletList[p_bulletID].bulletBox.position = bulletList[p_bulletID].position;
+    b->bulletBox.position = b->position;
 
-    if (bulletList[p_bulletID].friendly)
+    if (b->friendly)
     {
         for (size_t a=0; a<ALIEN_MAX; a++)
         {
             if (aliens[a].alive)
             {
-                bool collision = checkCollision(&bulletList[p_bulletID].bulletBox, &aliens[a].alienBox);
+                Alien* curHitAlien = &aliens[a];
+
+                bool collision = checkCollision(&b->bulletBox, &curHitAlien->alienBox);
                 if (collision)
                 {
-                    killAlien(a);
-                    killBullet(p_bulletID);
+                    killAlien(curHitAlien);
+                    killBullet(b);
                     arcade_currentKillCounter++;
                     arcade_currentScore += 50;
                     return;
@@ -123,11 +128,13 @@ void bulletCheckCollisions(int p_bulletID)
         {
             if (shooters[s].alive)
             {
-                bool collision = checkCollision(&bulletList[p_bulletID].bulletBox, &shooters[s].shooterBox);
+                Shooter* curHitShooter = &shooters[s];
+
+                bool collision = checkCollision(&b->bulletBox, &curHitShooter->shooterBox);
                 if (collision)
                 {
-                    killShooter(s);
-                    killBullet(p_bulletID);
+                    killShooter(curHitShooter);
+                    killBullet(b);
                     arcade_currentKillCounter++;
                     arcade_currentScore += 100;
                     return;
@@ -137,10 +144,10 @@ void bulletCheckCollisions(int p_bulletID)
     }
     else
     {
-        bool collision = checkCollision(&bulletList[p_bulletID].bulletBox, &player.hitBox);
+        bool collision = checkCollision(&b->bulletBox, &player.hitBox);
         if (collision)
         {
-            killBullet(p_bulletID);
+            killBullet(b);
             playerHit();
             return;
         }
@@ -148,10 +155,10 @@ void bulletCheckCollisions(int p_bulletID)
     
 }
 
-void killBullet(int p_bulletID)
+void killBullet(Bullet* b)
 {
-    killSprite(bulletList[p_bulletID].bullet_spriteID);
-    bulletList[p_bulletID].fired = false;
+    killSprite(b->bullet_sprite);
+    b->fired = false;
 
     bulletCount--;
 }
@@ -160,6 +167,7 @@ void killAllBullets()
 {
     for (int i=0; i<MAX_BULLETS; i++)
     {
-        killBullet(i);
+        if (bulletList[i].fired)
+            killBullet(&bulletList[i]);
     }
 }

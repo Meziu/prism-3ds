@@ -35,10 +35,10 @@ extern C2D_Font arcadeFont;
 
 void initTextEnv();
 
-int newText(Vector2D pos, float p_size, bool p_screen, int p_color, int p_align, char* str, bool buffer);
-void changeTextStr(int p_textID, char* str);
+Text* newText(Vector2D pos, float p_size, bool p_screen, int p_color, int p_align, char* str, bool buffer);
+void changeTextStr(Text* t, char* str);
 
-void killText(int p_textID);
+void killText(Text* t);
 void killAllText();
 
 void renderScreenText(bool p_screen);
