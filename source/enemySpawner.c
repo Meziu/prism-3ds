@@ -2,8 +2,8 @@
 
 size_t limits[3] = {4, 2, 0};
 
-size_t alienTimer = 60;
-size_t shooterTimer = 90;
+int alienTimer = 60;
+int shooterTimer = 90;
 
 Rail shooterRails[2] = {{RAIL_SHOOTER_1, SHOOTER_TYPE, 0},
                         {RAIL_SHOOTER_2, SHOOTER_TYPE, 0}};

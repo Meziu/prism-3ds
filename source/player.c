@@ -1,12 +1,12 @@
 #include "player.h"
 
 Player player;
-int lives[3];
+Sprite* lives[3];
 
 void initPlayer()
 {
     player.position = createVector2D(BOT_SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    player.prism_spriteID = newSprite(BOT_SCREEN, PLAYER_SPRITE, player.position, 0);
+    player.prism_sprite = newSprite(BOT_SCREEN, PLAYER_SPRITE, player.position, 0);
     player.shootingTimer = 40;
     player.hitBox = newCollisionBox(player.position, createVector2D(32,22));
 
@@ -72,7 +72,7 @@ void playerProcess()
         newBullet(createVector2D(player.position.x, player.position.y-10) , true, BOT_SCREEN);
     }
 
-    C2D_SpriteSetPos(&sprites[player.prism_spriteID].spr, (int)player.position.x, (int)player.position.y);
+    C2D_SpriteSetPos(&player.prism_sprite->spr, (int)player.position.x, (int)player.position.y);
 }
 
 void playerHit()

@@ -23,8 +23,7 @@ typedef struct
     bool alive;
 
     int railID;
-    int alien_spriteID;
-    int alienID;
+    Sprite* alien_sprite;
 } Alien;
 
 typedef struct 
@@ -40,8 +39,7 @@ typedef struct
     bool alive;
 
     int railID;
-    int shooter_spriteID;
-    int shooterID;
+    Sprite* shooter_sprite;
 } Shooter;
 
 extern Alien aliens[ALIEN_MAX];
@@ -50,11 +48,11 @@ extern Shooter shooters[SHOOTER_MAX];
 extern size_t alienCount;
 extern size_t shooterCount;
 
-int newAlien(int prailID);
-int newShooter(int prailID);
+Alien* newAlien(int prailID);
+Shooter* newShooter(int prailID);
 
-void killAlien(int p_alienID);
-void killShooter(int p_shooterID);
+void killAlien(Alien* a);
+void killShooter(Shooter* s);
 void killAllEnemies();
 
 void aliensProcess();

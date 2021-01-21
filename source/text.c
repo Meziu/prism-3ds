@@ -13,48 +13,51 @@ void initTextEnv()
     arcadeFont = C2D_FontLoad("romfs:/gfx/arcade.bcfnt");
 }
 
-int newText(Vector2D pos, float p_size, bool p_screen, int p_color, int p_align, char* str, bool buffer)
+Text* newText(Vector2D pos, float p_size, bool p_screen, int p_color, int p_align, char* str, bool buffer)
 {
     for (int i=0; i<MAX_TEXT_OBJECTS; i++)
     {
         if (!textList[i].toWrite)
         {
-            textList[i].toWrite = true;
-            textList[i].position = pos;
-            textList[i].textID = i;
+            Text* nText = &textList[i];
 
-            textList[i].size = p_size;
-            textList[i].screen = p_screen;
-            textList[i].color = p_color;
-            textList[i].alignment = p_align;
+            nText->toWrite = true;
+            nText->position = pos;
+            nText->textID = i;
+
+            nText->size = p_size;
+            nText->screen = p_screen;
+            nText->color = p_color;
+            nText->alignment = p_align;
 
             if (buffer)
-                C2D_TextFontParse(&textList[i].text, arcadeFont, g_staticBuf, str);
+                C2D_TextFontParse(&nText->text, arcadeFont, g_staticBuf, str);
             else
-                C2D_TextFontParse(&textList[i].text, arcadeFont, g_dynamicBuf, str);
-            return i;
+                C2D_TextFontParse(&nText->text, arcadeFont, g_dynamicBuf, str);
+            return nText;
         }
     }
-    return -1;
+    return NULL;
 }
 
-void changeTextStr(int p_textID, char* str)
+void changeTextStr(Text* t, char* str)
 {
-    C2D_TextFontParse(&textList[p_textID].text, arcadeFont, g_dynamicBuf, str);
+    C2D_TextFontParse(&t->text, arcadeFont, g_dynamicBuf, str);
 }
 
-void killText(int p_textID)
+void killText(Text* t)
 {
-    textList[p_textID].toWrite = false;
+    t->toWrite = false;
 }
 
 void killAllText()
 {
     for (int i=0; i<MAX_TEXT_OBJECTS; i++)
     {
-        killText(i);
+        killText(&textList[i]);
     }
     C2D_TextBufClear(g_staticBuf);
+    C2D_TextBufClear(g_dynamicBuf);
 }
 
 void renderScreenText(bool p_screen)

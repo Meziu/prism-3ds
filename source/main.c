@@ -23,9 +23,6 @@ void killEverything()
 	killAllBullets();
 	killAllText();
 	killAllSprites();
-
-	C2D_TextBufClear(g_staticBuf);
-	C2D_TextBufClear(g_dynamicBuf);
 }
 
 void changeScene(int new_scene)
@@ -55,7 +52,7 @@ void changeScene(int new_scene)
 		return;
 	}
 
-	// in case new scene isn't recognized
+	// in case the new scene's ID isn't recognized
 	currentScene = SCENE_MENU;
 	mainMenuInit();
 }
@@ -125,7 +122,7 @@ int main()
 		if (currentScene == SCENE_MENU)
 			mainMenuProcess();
 		else if (currentScene == SCENE_GAME)
-			gameProcess();
+			printf("pog"); //gameProcess();
 		else if (currentScene == SCENE_ENDGAME)
 			endMatchProcess();
 		else if (currentScene == SCENE_INTERMISSION)

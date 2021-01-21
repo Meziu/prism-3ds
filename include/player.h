@@ -13,7 +13,7 @@ typedef struct
 
     int shootingTimer;
 
-    int prism_spriteID;
+    Sprite* prism_sprite;
 } Player;
 
 extern Player player;

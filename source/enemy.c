@@ -6,99 +6,103 @@ Shooter shooters[SHOOTER_MAX];
 size_t alienCount;
 size_t shooterCount;
 
-int newAlien(int p_railID)
+Alien* newAlien(int p_railID)
 {
     for (size_t i=0; i<ALIEN_MAX; i++)
     {
         if (!aliens[i].alive)
         {
-            aliens[i].position.y = alienRails[p_railID].y_pos;
+            Alien* nAlien = &aliens[i];
+
+            nAlien->position.y = alienRails[p_railID].y_pos;
             alienRails[p_railID].counter++;
             
             if ((float)rand()/(float)RAND_MAX < 0.5f)
             {
-                aliens[i].position.x = -30;
-                aliens[i].velocity = 2;
+                nAlien->position.x = -30;
+                nAlien->velocity = 2;
             }
             else
             {
-                aliens[i].position.x = 430;
-                aliens[i].velocity = -2;
+                nAlien->position.x = 430;
+                nAlien->velocity = -2;
             }
 
-            aliens[i].alien_spriteID = newSprite(TOP_SCREEN, ALIEN_SPRITE, aliens[i].position, 0);
+            nAlien->alien_sprite = newSprite(TOP_SCREEN, ALIEN_SPRITE, nAlien->position, 0);
 
-            aliens[i].alienBox = newCollisionBox(aliens[i].position, createVector2D(32, 32));
+            nAlien->alienBox = newCollisionBox(nAlien->position, createVector2D(32, 32));
 
-            aliens[i].alive = true;
-            aliens[i].movementTimer = 120;
-            aliens[i].railID = p_railID;
+            nAlien->alive = true;
+            nAlien->movementTimer = 120;
+            nAlien->railID = p_railID;
 
             alienCount++;
-            return i;
+            return nAlien;
         }
     }
-    return -1;
+    return NULL;
 }
 
-int newShooter(int p_railID)
+Shooter* newShooter(int p_railID)
 {
     for (size_t i=0; i<SHOOTER_MAX; i++)
     {
         if (!shooters[i].alive)
         {
-            shooters[i].position.y = shooterRails[p_railID].y_pos;
+            Shooter* nShooter = &shooters[i];
+
+            nShooter->position.y = shooterRails[p_railID].y_pos;
             shooterRails[p_railID].counter++;
             
             if ((float)rand()/(float)RAND_MAX < 0.5f)
             {
-                shooters[i].position.x = -30;
-                shooters[i].velocity = 2;
+                nShooter->position.x = -30;
+                nShooter->velocity = 2;
             }
             else
             {
-                shooters[i].position.x = 430;
-                shooters[i].velocity = -2;
+                nShooter->position.x = 430;
+                nShooter->velocity = -2;
             }
 
-            shooters[i].shooter_spriteID = newSprite(TOP_SCREEN, SHOOTER_SPRITE, shooters[i].position, 0);
+            nShooter->shooter_sprite = newSprite(TOP_SCREEN, SHOOTER_SPRITE, nShooter->position, 0);
 
-            shooters[i].shooterBox = newCollisionBox(shooters[i].position, createVector2D(32, 32));
+            nShooter->shooterBox = newCollisionBox(nShooter->position, createVector2D(32, 32));
 
-            shooters[i].alive = true;
-            shooters[i].movementTimer = 120;
-            shooters[i].shootingTimer = 102;
-            shooters[i].animationCount = 0;
-            shooters[i].railID = p_railID;
+            nShooter->alive = true;
+            nShooter->movementTimer = 120;
+            nShooter->shootingTimer = 102;
+            nShooter->animationCount = 0;
+            nShooter->railID = p_railID;
 
             shooterCount++;
-            return i;
+            return nShooter;
         }
     }
-    return -1;
+    return NULL;
 }
 
 
-void updateAlienSprite(int p_alienID)
+void updateAlienSprite(Alien* a)
 {
-    C2D_SpriteSetPos(&sprites[aliens[p_alienID].alien_spriteID].spr, (int)aliens[p_alienID].position.x, (int)aliens[p_alienID].position.y);
+    C2D_SpriteSetPos(&a->alien_sprite->spr, (int)a->position.x, (int)a->position.y);
 }
 
-void updateShooterSprite(int p_shooterID)
+void updateShooterSprite(Shooter* s)
 {   
-    shooters[p_shooterID].animationCount = 0;
+    s->animationCount = 0;
     
-    if (shooters[p_shooterID].shootingTimer <= 11)
+    if (s->shootingTimer <= 11)
     {
-        shooters[p_shooterID].animationCount = 11-shooters[p_shooterID].shootingTimer;
+        s->animationCount = 11-(s->shootingTimer);
     }
 
-    C2D_SpriteFromSheet(&sprites[shooters[p_shooterID].shooter_spriteID].spr, spriteSheet, shooters[p_shooterID].animationCount+SHOOTER_SPRITE);
-    C2D_SpriteSetCenter(&sprites[shooters[p_shooterID].shooter_spriteID].spr, 0.5f, 0.5f);
-    C2D_SpriteSetPos(&sprites[shooters[p_shooterID].shooter_spriteID].spr, (int)shooters[p_shooterID].position.x, (int)shooters[p_shooterID].position.y);
+    C2D_SpriteFromSheet(&s->shooter_sprite->spr, spriteSheet, s->animationCount+SHOOTER_SPRITE);
+    C2D_SpriteSetCenter(&s->shooter_sprite->spr, 0.5f, 0.5f);
+    C2D_SpriteSetPos(&s->shooter_sprite->spr, (int)s->position.x, (int)s->position.y);
 }
 
-int alienMove(int p_alienID)
+int alienMove(Alien* a)
 {
     if (shooterCount == 0)
     {
@@ -110,7 +114,7 @@ int alienMove(int p_alienID)
     {
         if (shooters[i].alive)
         {
-            float relative = shooters[i].position.x - aliens[p_alienID].position.x;
+            float relative = shooters[i].position.x - a->position.x;
             if (abs(lowest) > abs(relative))
             {
                 lowest = relative;
@@ -126,32 +130,34 @@ void aliensProcess()
     {
         if (aliens[i].alive)
         {
-            if (aliens[i].movementTimer == 0)
+            Alien* curAlien = &aliens[i];
+
+            if (curAlien->movementTimer == 0)
             {
-                aliens[i].velocity = alienMove(i);
-                aliens[i].movementTimer = 120;
+                curAlien->velocity = alienMove(curAlien);
+                curAlien->movementTimer = 120;
             }
-            aliens[i].movementTimer--;
-            aliens[i].position.x += aliens[i].velocity;
+            curAlien->movementTimer--;
+            curAlien->position.x += curAlien->velocity;
             
 
-            int rightLimit = MOVEMENT_LIMIT_RIGHT - (sprites[aliens[i].alien_spriteID].spr.params.pos.w / 2.0f);
+            int rightLimit = MOVEMENT_LIMIT_RIGHT - (curAlien->alien_sprite->spr.params.pos.w / 2.0f);
 
-            if ((aliens[i].position.x > rightLimit) && (aliens[i].velocity > 0))
+            if ((curAlien->position.x > rightLimit) && (curAlien->velocity > 0))
             {
-                aliens[i].position.x = rightLimit;
+                curAlien->position.x = rightLimit;
             }
 
             
-            int leftLimit = MOVEMENT_LIMIT_LEFT + (sprites[aliens[i].alien_spriteID].spr.params.pos.w / 2.0f);
+            int leftLimit = MOVEMENT_LIMIT_LEFT + (curAlien->alien_sprite->spr.params.pos.w / 2.0f);
 
-            if ((aliens[i].position.x < leftLimit) && (aliens[i].velocity < 0))
+            if ((curAlien->position.x < leftLimit) && (curAlien->velocity < 0))
             {
-                aliens[i].position.x = leftLimit;
+                curAlien->position.x = leftLimit;
             }
 
-            updateAlienSprite(i);
-            aliens[i].alienBox.position = aliens[i].position;
+            updateAlienSprite(curAlien);
+            curAlien->alienBox.position = curAlien->position;
 
         }
     }
@@ -163,62 +169,63 @@ void shootersProcess()
     {
         if (shooters[i].alive)
         {
-            if (shooters[i].movementTimer == 0)
-            {
-                shooters[i].velocity = sign(player.position.x - shooters[i].position.x) * 0.5f;
-                shooters[i].movementTimer = 120;
-            }
-            shooters[i].movementTimer--;
+            Shooter* curShooter = &shooters[i];
 
-            if (shooters[i].shootingTimer == 0)
+            if (curShooter->movementTimer == 0)
             {
-                newBullet(createVector2D(shooters[i].position.x, shooters[i].position.y+20), false, TOP_SCREEN);
-                shooters[i].shootingTimer = 102;
+                curShooter->velocity = sign(player.position.x - curShooter->position.x) * 0.5f;
+                curShooter->movementTimer = 120;
             }
-            shooters[i].shootingTimer--;
+            curShooter->movementTimer--;
 
-            shooters[i].position.x += shooters[i].velocity;
+            if (curShooter->shootingTimer == 0)
+            {
+                newBullet(createVector2D(curShooter->position.x, curShooter->position.y+20), false, TOP_SCREEN);
+                curShooter->shootingTimer = 102;
+            }
+            curShooter->shootingTimer--;
+
+            curShooter->position.x += curShooter->velocity;
 
             
-            int rightLimit = MOVEMENT_LIMIT_RIGHT - (sprites[shooters[i].shooter_spriteID].spr.params.pos.w / 2.0f);
+            int rightLimit = MOVEMENT_LIMIT_RIGHT - (curShooter->shooter_sprite->spr.params.pos.w / 2.0f);
 
-            if ((shooters[i].position.x > rightLimit) && (shooters[i].velocity > 0))
+            if ((curShooter->position.x > rightLimit) && (curShooter->velocity > 0))
             {
-                aliens[i].position.x = rightLimit;
+                curShooter->position.x = rightLimit;
             }
             
-            int leftLimit = MOVEMENT_LIMIT_LEFT + (sprites[shooters[i].shooter_spriteID].spr.params.pos.w / 2.0f);
+            int leftLimit = MOVEMENT_LIMIT_LEFT + (curShooter->shooter_sprite->spr.params.pos.w / 2.0f);
 
-            if ((shooters[i].position.x < leftLimit) && (shooters[i].velocity < 0))
+            if ((curShooter->position.x < leftLimit) && (curShooter->velocity < 0))
             {
-                shooters[i].position.x = leftLimit;
+                curShooter->position.x = leftLimit;
             }
             
             
-            updateShooterSprite(i);
-            shooters[i].shooterBox.position = shooters[i].position;
-
+            updateShooterSprite(curShooter);
+            curShooter->shooterBox.position = curShooter->position;
         }
     }
 }
 
 
-void killAlien(int p_alienID)
+void killAlien(Alien* a)
 {
-    aliens[p_alienID].alive = false;
-    killSprite(aliens[p_alienID].alien_spriteID);
+    a->alive = false;
+    killSprite(a->alien_sprite);
     alienCount--;
 
-    alienRails[aliens[p_alienID].railID].counter--;
+    alienRails[a->railID].counter--;
 }
 
-void killShooter(int p_shooterID)
+void killShooter(Shooter* s)
 {
-    shooters[p_shooterID].alive = false;
-    killSprite(shooters[p_shooterID].shooter_spriteID);
+    s->alive = false;
+    killSprite(s->shooter_sprite);
     shooterCount--;
 
-    shooterRails[shooters[p_shooterID].railID].counter--;
+    shooterRails[s->railID].counter--;
 }
 
 void killAllEnemies()
@@ -226,11 +233,11 @@ void killAllEnemies()
     for (int i=0; i<ALIEN_MAX; i++)
     {
         if (aliens[i].alive)
-            killAlien(i);
+            killAlien(&aliens[i]);
     }
     for (int i=0; i<SHOOTER_MAX; i++)
     {
         if (shooters[i].alive)
-            killShooter(i);
+            killShooter(&shooters[i]);
     }
 }

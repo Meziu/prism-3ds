@@ -37,6 +37,6 @@ extern C2D_SpriteSheet spriteSheet;
 extern Sprite sprites[MAX_SPRITES];
 extern size_t numSprites;
 
-int newSprite(bool screen, int usedFrame, Vector2D pos, int angle);
-void killSprite(int spriteID);
+Sprite* newSprite(bool screen, int usedFrame, Vector2D pos, int angle);
+void killSprite(Sprite* s);
 void killAllSprites();
