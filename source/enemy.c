@@ -97,7 +97,7 @@ void updateShooterSprite(Shooter* s)
         s->animationCount = 11-(s->shootingTimer);
     }
 
-    C2D_SpriteFromSheet(&s->shooter_sprite->spr, spriteSheet, s->animationCount+SHOOTER_SPRITE);
+    C2D_SpriteFromSheet(&s->shooter_sprite->spr, general_spriteSheet, s->animationCount+SHOOTER_SPRITE);
     C2D_SpriteSetCenter(&s->shooter_sprite->spr, 0.5f, 0.5f);
     C2D_SpriteSetPos(&s->shooter_sprite->spr, (int)s->position.x, (int)s->position.y);
 }

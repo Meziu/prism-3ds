@@ -1,7 +1,7 @@
 #pragma once
 
 #include <3ds.h>
-#include "sprite.h"
+#include "graphics.h"
 #include "vector2D.h"
 #include "bullet.h"
 #include "collision.h"

@@ -33,7 +33,7 @@ typedef struct
     bool screen;
 } Sprite;
 
-extern C2D_SpriteSheet spriteSheet;
+extern C2D_SpriteSheet general_spriteSheet;
 extern Sprite sprites[MAX_SPRITES];
 extern size_t numSprites;
 

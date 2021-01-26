@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sprite.h"
+#include "graphics.h"
 #include "vector2D.h"
 #include "collision.h"
 #include "enemy.h"

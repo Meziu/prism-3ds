@@ -4,7 +4,6 @@
 #include <3ds.h>
 #include <stdbool.h>
 #include "vector2D.h"
-#include "sprite.h"
 
 #define MAX_TEXT_OBJECTS 10
 #define MAX_TEXT 1000
