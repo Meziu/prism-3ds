@@ -64,8 +64,6 @@ int main()
 		if (kDown & KEY_START)
 			break; // break in order to return to hbmenu
 
-		checkSystemStatus();
-
 		if (currentScene == SCENE_MENU)
 			mainMenuProcess();
 		else if (currentScene == SCENE_GAME)

@@ -7,13 +7,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include "vector2D.h"
-#include "graphics.h"
-#include "player.h"
+#include <ez3ds.h>
+
 #include "enemy.h"
 #include "enemySpawner.h"
 #include "bullet.h"
-#include "collision.h"
 #include "game.h"
 #include "main_menu.h"
 
