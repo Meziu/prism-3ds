@@ -35,7 +35,8 @@ TARGET			:=	not_the_prism
 BUILD			:=	build
 SOURCES			:=	source
 DATA			:=	data
-INCLUDES		:=	include
+INCLUDES		:=	include	\
+						libs/ez3ds/include
 GRAPHICS		:=	gfx
 ROMFS			:=	romfs
 GFXBUILD		:=	$(ROMFS)/gfx
@@ -61,7 +62,7 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcitro2d -lcitro3d -lctru -lm
+LIBS	:= -lcitro2d -lcitro3d -lctru -lm $(TOPDIR)/libs/ez3ds/lib/libez3ds.a
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing

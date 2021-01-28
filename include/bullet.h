@@ -1,8 +1,6 @@
 #pragma once
 
-#include "graphics.h"
-#include "vector2D.h"
-#include "collision.h"
+#include <ez3ds.h>
 #include "enemy.h"
 #include "game.h"
 
