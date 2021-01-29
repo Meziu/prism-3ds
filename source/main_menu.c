@@ -65,22 +65,22 @@ void mainMenuInit()
     currentScene = SCENE_MENU;
     clearColor = MAIN_MENU_BG_COLOR;
 
-    newText(createVector2D(TOP_SCREEN_WIDTH/2, 80), 1.0f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, "Prism - The Game 3D", true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2, 80), 1.0f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, "Prism - The Game 3D", 0, true);
 
-    newText(createVector2D(TOP_SCREEN_WIDTH/2, 110), 0.6f, TOP_SCREEN, LIGHT_BLUE_TEXT, C2D_AlignCenter, splash[randSplashScreen()], true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2, 110), 0.6f, TOP_SCREEN, LIGHT_BLUE_TEXT, C2D_AlignCenter, splash[randSplashScreen()], 0, true);
 
     char high_score[20];
     sprintf(high_score, "Highscore: %d", game_highScore);
-    newText(createVector2D(TOP_SCREEN_WIDTH/2, 160), 0.6f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignCenter, high_score, true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2, 160), 0.6f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignCenter, high_score, 0, true);
 
     char coins[20];
     sprintf(coins, "Coins: %d", game_totalCoins);
-    newText(createVector2D(TOP_SCREEN_WIDTH/2, 180), 0.6f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignCenter, coins, true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2, 180), 0.6f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignCenter, coins, 0, true);
 
-    newText(createVector2D(10, SCREEN_HEIGHT-20), 0.6f, TOP_SCREEN, LIGHT_BLUE_TEXT, C2D_AlignLeft, "By Meziu210", true);
+    newText(createVector2D(10, SCREEN_HEIGHT-20), 0.6f, TOP_SCREEN, LIGHT_BLUE_TEXT, C2D_AlignLeft, "By Meziu210", 0, true);
 
 
-    newText(createVector2D(BOT_SCREEN_WIDTH/2, 110), 0.8f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignCenter, "PRESS A TO PLAY", true);
+    newText(createVector2D(BOT_SCREEN_WIDTH/2, 110), 0.8f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignCenter, "PRESS A TO PLAY", 0, true);
 }
 
 void mainMenuProcess()

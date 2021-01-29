@@ -47,8 +47,10 @@ void changeScene(int new_scene)
 int main()
 {
 	srand(time(NULL));
-	
+
 	romfsInit();
+
+	newFont("romfs:/gfx/arcade.bcfnt");
 	initAllGraphics();
 
 	mainMenuInit();

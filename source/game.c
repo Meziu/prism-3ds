@@ -79,10 +79,10 @@ void endMatch()
 
     clearColor = ENDSCREEN_BG_COLOR;
 
-    newText(createVector2D(TOP_SCREEN_WIDTH/2,50), 1.0f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, "YOU LOST YOU 4th\nDIMENSIONAL PIECE OF\nUNEXPLORED SPACE", true);
-    newText(createVector2D(TOP_SCREEN_WIDTH/2,180), 0.6f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter,  scoreTextStr, true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2,50), 1.0f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, "YOU LOST YOU 4th\nDIMENSIONAL PIECE OF\nUNEXPLORED SPACE", 0, true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2,180), 0.6f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, scoreTextStr, 0, true);
 
-    newText(createVector2D(BOT_SCREEN_WIDTH/2, 100), 0.8f, BOT_SCREEN, WHITE_TEXT, C2D_AlignCenter, "Press B to go\nback to the menu", true);
+    newText(createVector2D(BOT_SCREEN_WIDTH/2, 100), 0.8f, BOT_SCREEN, WHITE_TEXT, C2D_AlignCenter, "Press B to go\nback to the menu", 0, true);
 }
 
 void endMatchProcess()
@@ -102,8 +102,8 @@ void intermissionWait()
     char nextRoundText[50];
     sprintf(nextRoundText, "PREPARE FOR ROUND %d", arcade_currentLevel+1);
 
-    newText(createVector2D(TOP_SCREEN_WIDTH/2, 60), 0.6f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, finishedRoundText, true);
-    newText(createVector2D(TOP_SCREEN_WIDTH/2, 170), 0.6f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter,  nextRoundText, true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2, 60), 0.6f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, finishedRoundText, 0, true);
+    newText(createVector2D(TOP_SCREEN_WIDTH/2, 170), 0.6f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter,  nextRoundText, 0, true);
 }
 
 void intermissionProcess()
@@ -135,13 +135,13 @@ void gameInit()
     calculateKillNeeded();
 
     sprintf(scoreTextStr, "Score: %d", arcade_currentScore);
-    scoreText = newText(createVector2D(15, 10), 0.5f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignLeft, scoreTextStr, false);
+    scoreText = newText(createVector2D(15, 10), 0.5f, TOP_SCREEN, YELLOW_TEXT, C2D_AlignLeft, scoreTextStr, 0, false);
 
     sprintf(killCounterTextStr, "Kills: %d/%d", arcade_currentKillCounter, arcade_currentKillNeeded);
-    killCounterText = newText(createVector2D(BOT_SCREEN_WIDTH-15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignRight, killCounterTextStr, false);
+    killCounterText = newText(createVector2D(BOT_SCREEN_WIDTH-15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignRight, killCounterTextStr, 0, false);
 
     sprintf(roundCounterTextStr, "Round: %d", arcade_currentLevel);
-    roundCounterText = newText(createVector2D(15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignLeft, roundCounterTextStr, true);
+    roundCounterText = newText(createVector2D(15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignLeft, roundCounterTextStr, 0, true);
 }
 
 void gameProcess()
