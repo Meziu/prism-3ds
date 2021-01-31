@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ez3ds.h>
+#include <little3ds.h>
 #include "enemy.h"
 #include "game.h"
 

@@ -1,10 +1,8 @@
 #pragma once
 
-#include "graphics.h"
-#include "vector2D.h"
+#include "little3ds.h"
 #include "player.h"
 #include "enemySpawner.h"
-#include "collision.h"
 
 #define ALIEN_MAX 21
 #define SHOOTER_MAX 10

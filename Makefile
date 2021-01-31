@@ -36,7 +36,9 @@ BUILD			:=	build
 SOURCES			:=	source
 DATA			:=	data
 INCLUDES		:=	include	\
-						libs/ez3ds/include
+						libs/little3ds/include \
+						libs/vorbis/include \
+						libs/ogg/include
 GRAPHICS		:=	gfx
 ROMFS			:=	romfs
 GFXBUILD		:=	$(ROMFS)/gfx
@@ -62,13 +64,13 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcitro2d -lcitro3d -lctru -lm $(TOPDIR)/libs/ez3ds/lib/libez3ds.a
+LIBS	:= -lcitro2d -lcitro3d -lctru -lm $(TOPDIR)/libs/vorbis/lib/libvorbis.a $(TOPDIR)/libs/little3ds/lib/liblittle3ds.a
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CTRULIB)
+LIBDIRS	:= $(CTRULIB) $(TOPDIR)/libs/
 
 
 #---------------------------------------------------------------------------------

@@ -1,10 +1,8 @@
 #pragma once
 
 #include <3ds.h>
-#include "graphics.h"
-#include "vector2D.h"
+#include "little3ds.h"
 #include "bullet.h"
-#include "collision.h"
 
 typedef struct 
 {

@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ez3ds.h>
+#include "little3ds.h"
 
 #include "enemy.h"
 #include "enemySpawner.h"
