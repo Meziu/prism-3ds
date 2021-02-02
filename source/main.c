@@ -50,6 +50,15 @@ int main()
 
 	romfsInit();
 
+	nathanInit3dsSound();
+
+	NathanMusic senzanome;
+	nathanLoadSoundEffect(&senzanome, "romfs:/audio/senza_nome.ogg");
+
+	nathanInit3dsChannel(1);
+	nathanMakeChannelMono(1);
+	nathanPlaySound(&senzanome, 1);
+
 	newFont("romfs:/gfx/arcade.bcfnt");
 	initAllGraphics();
 
@@ -79,6 +88,8 @@ int main()
 		
 	}
 
+	nathanFreeMusic(&senzanome);
+	ndspExit();
 	destroyAllGraphics();
 	romfsExit();
 	return 0;

@@ -14,6 +14,7 @@
 #include "bullet.h"
 #include "game.h"
 #include "main_menu.h"
+#include "ogg/ogg.h"
 
 #define SCENE_MENU          0
 #define SCENE_GAME          1
