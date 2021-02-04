@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "little3ds.h"
 #include "main.h"
 #include "player.h"
 #include "enemySpawner.h"
@@ -15,6 +16,11 @@
 #define DIF_EZ         0
 #define DIF_NORMIE     1
 #define DIF_PRO        2
+
+#define CHN_ENEMY_SHOOT  1
+#define CHN_PLAYER_HURT  2
+#define CHN_EXPLOSION    3
+#define CHN_PLAYER_SHOOT 4
 
 // these values are divided in 2 categories, "arcade" and "game"
 // arcade values are temporary values used for the current match that's being played
@@ -30,6 +36,10 @@ extern int game_chosenDifficulty;
 extern int game_highScore;
 extern int game_totalCoins;
 
+extern NathanMusic explosion;
+extern NathanMusic enemyShoot;
+extern NathanMusic playerShoot;
+extern NathanMusic playerHurt;
 
 void setDefaultArcadeValues();
 

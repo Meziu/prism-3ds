@@ -49,15 +49,14 @@ int main()
 	srand(time(NULL));
 
 	romfsInit();
-
 	nathanInit3dsSound();
 
-	NathanMusic senzanome;
-	nathanLoadSoundEffect(&senzanome, "romfs:/audio/senza_nome.ogg");
 
-	nathanInit3dsChannel(1);
-	nathanMakeChannelMono(1);
-	nathanPlaySound(&senzanome, 1);
+	// audio stuff
+    nathanLoadSoundEffect(&explosion, "romfs:/audio/Enemies/explosion.ogg");
+    nathanLoadSoundEffect(&enemyShoot, "romfs:/audio/Enemies/shoot_shooterenemy.ogg");
+    nathanLoadSoundEffect(&playerShoot, "romfs:/audio/Player/shoot_spaceship.ogg");
+    nathanLoadSoundEffect(&playerHurt, "romfs:/audio/Player/hit.ogg");
 
 	newFont("romfs:/gfx/arcade.bcfnt");
 	initAllGraphics();
@@ -70,10 +69,9 @@ int main()
 
 		hidScanInput();
 
-		// Respond to user input
 		kDown = hidKeysDown();
 		if (kDown & KEY_START)
-			break; // break in order to return to hbmenu
+			break; // break to return to hbmenu
 
 		if (currentScene == SCENE_MENU)
 			mainMenuProcess();
@@ -88,7 +86,6 @@ int main()
 		
 	}
 
-	nathanFreeMusic(&senzanome);
 	ndspExit();
 	destroyAllGraphics();
 	romfsExit();

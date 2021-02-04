@@ -11,6 +11,11 @@ int game_chosenDifficulty;
 int game_highScore;
 int game_totalCoins;
 
+NathanMusic explosion;
+NathanMusic enemyShoot;
+NathanMusic playerShoot;
+NathanMusic playerHurt;
+
 int intermissionTimer;
 
 Text* scoreText;
@@ -77,6 +82,8 @@ void endMatch()
 {
     storeGameValues();
 
+    arcade_currentLevel = 0;
+
     clearColor = ENDSCREEN_BG_COLOR;
 
     newText(createVector2D(TOP_SCREEN_WIDTH/2,50), 1.0f, TOP_SCREEN, WHITE_TEXT, C2D_AlignCenter, "YOU LOST YOU 4th\nDIMENSIONAL PIECE OF\nUNEXPLORED SPACE", 0, true);
@@ -88,7 +95,9 @@ void endMatch()
 void endMatchProcess()
 {
     if (kDown & KEY_B)
+    {
         changeScene(SCENE_MENU);
+    }
 }
 
 
@@ -142,6 +151,19 @@ void gameInit()
 
     sprintf(roundCounterTextStr, "Round: %d", arcade_currentLevel);
     roundCounterText = newText(createVector2D(15, 10), 0.5f, BOT_SCREEN, YELLOW_TEXT, C2D_AlignLeft, roundCounterTextStr, 0, true);
+
+    nathanInit3dsChannel(CHN_ENEMY_SHOOT);
+	nathanMakeChannelMono(CHN_ENEMY_SHOOT);
+
+	nathanInit3dsChannel(CHN_PLAYER_HURT);
+	nathanMakeChannelMono(CHN_PLAYER_HURT);
+
+	nathanInit3dsChannel(CHN_EXPLOSION);
+	nathanMakeChannelMono(CHN_EXPLOSION);
+	
+	nathanInit3dsChannel(CHN_PLAYER_SHOOT);
+	nathanMakeChannelMono(CHN_PLAYER_SHOOT);
+
 }
 
 void gameProcess()
@@ -150,6 +172,8 @@ void gameProcess()
     enemySpawner();
     aliensProcess();
     shootersProcess();
+
+    printf("pog");
 
     C2D_TextBufClear(g_dynamicBuf);
 

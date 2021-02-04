@@ -181,6 +181,7 @@ void shootersProcess()
             {
                 newBullet(createVector2D(curShooter->position.x, curShooter->position.y+20), false, TOP_SCREEN);
                 curShooter->shootingTimer = 102;
+                nathanPlaySound(&enemyShoot, CHN_ENEMY_SHOOT);
             }
 
             curShooter->position.x += curShooter->velocity;

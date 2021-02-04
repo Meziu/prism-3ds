@@ -11,8 +11,12 @@ void initPlayer()
     player.hitBox = newCollisionBox(player.position, createVector2D(32,22));
 
     lives[0] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(360, 20), 0);
-    lives[1] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(330, 20), 0);
-    lives[2] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(300, 20), 0);
+    
+    if (arcade_currentLives > 1)
+        lives[1] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(330, 20), 0);
+    if (arcade_currentLives > 2)
+        lives[2] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(300, 20), 0);
+    
 }
 
 void playerProcess()
@@ -70,6 +74,7 @@ void playerProcess()
     {
         player.shootingTimer = 40;
         newBullet(createVector2D(player.position.x, player.position.y-10) , true, BOT_SCREEN);
+        nathanPlaySound(&playerShoot, CHN_PLAYER_SHOOT);
     }
 
     C2D_SpriteSetPos(&player.prism_sprite->spr, (int)player.position.x, (int)player.position.y);
@@ -82,5 +87,7 @@ void playerHit()
     if (arcade_currentLives <= 0)
     {
         changeScene(SCENE_ENDGAME);
+        return;
     }
+    nathanPlaySound(&playerHurt, CHN_PLAYER_HURT);
 }
