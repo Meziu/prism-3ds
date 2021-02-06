@@ -3,8 +3,10 @@
 Alien aliens[ALIEN_MAX];
 Shooter shooters[SHOOTER_MAX];
 
-size_t alienCount;
-size_t shooterCount;
+uint8_t alienCount;
+uint8_t shooterCount;
+
+C2D_SpriteSheet shooterAnimations;
 
 Alien* newAlien(int p_railID)
 {
@@ -28,7 +30,7 @@ Alien* newAlien(int p_railID)
                 nAlien->velocity = -2;
             }
 
-            nAlien->alien_sprite = newSprite(TOP_SCREEN, ALIEN_SPRITE, nAlien->position, 0);
+            nAlien->alien_sprite = newSprite(TOP_SCREEN, &general_spritesheet, ALIEN_SPRITE, nAlien->position, 0);
 
             nAlien->alienBox = newCollisionBox(nAlien->position, createVector2D(32, 32));
 
@@ -65,7 +67,7 @@ Shooter* newShooter(int p_railID)
                 nShooter->velocity = -2;
             }
 
-            nShooter->shooter_sprite = newSprite(TOP_SCREEN, SHOOTER_SPRITE, nShooter->position, 0);
+            nShooter->shooter_sprite = newSprite(TOP_SCREEN, &shooterAnimations, 0, nShooter->position, 0);
 
             nShooter->shooterBox = newCollisionBox(nShooter->position, createVector2D(32, 32));
 
@@ -92,12 +94,12 @@ void updateShooterSprite(Shooter* s)
 {   
     s->animationCount = 0;
     
-    if (s->shootingTimer <= 11)
+    if (s->shootingTimer <= 22)
     {
-        s->animationCount = 11-(s->shootingTimer);
+        s->animationCount = 22-(s->shootingTimer);
     }
 
-    C2D_SpriteFromSheet(&s->shooter_sprite->spr, general_spriteSheet, s->animationCount+SHOOTER_SPRITE);
+    C2D_SpriteFromSheet(&s->shooter_sprite->spr, shooterAnimations, s->animationCount/2);
     C2D_SpriteSetCenter(&s->shooter_sprite->spr, 0.5f, 0.5f);
     C2D_SpriteSetPos(&s->shooter_sprite->spr, (int)s->position.x, (int)s->position.y);
 }

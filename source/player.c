@@ -6,16 +6,16 @@ Sprite* lives[3];
 void initPlayer()
 {
     player.position = createVector2D(BOT_SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-    player.prism_sprite = newSprite(BOT_SCREEN, PLAYER_SPRITE, player.position, 0);
+    player.prism_sprite = newSprite(BOT_SCREEN, &general_spritesheet, PLAYER_SPRITE, player.position, 0);
     player.shootingTimer = 40;
     player.hitBox = newCollisionBox(player.position, createVector2D(32,22));
 
-    lives[0] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(360, 20), 0);
+    lives[0] = newSprite(TOP_SCREEN, &general_spritesheet, LIFE_SPRITE, createVector2D(360, 20), 0);
     
     if (arcade_currentLives > 1)
-        lives[1] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(330, 20), 0);
+        lives[1] = newSprite(TOP_SCREEN, &general_spritesheet, LIFE_SPRITE, createVector2D(330, 20), 0);
     if (arcade_currentLives > 2)
-        lives[2] = newSprite(TOP_SCREEN, LIFE_SPRITE, createVector2D(300, 20), 0);
+        lives[2] = newSprite(TOP_SCREEN, &general_spritesheet, LIFE_SPRITE, createVector2D(300, 20), 0);
     
 }
 

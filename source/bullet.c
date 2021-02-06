@@ -17,11 +17,11 @@ Bullet* newBullet(Vector2D pos, bool p_friendly, bool p_screen)
             
             if (p_friendly)
             {
-                newBullet->bullet_sprite = newSprite(p_screen, BULLET_SPRITE, pos, 0);
+                newBullet->bullet_sprite = newSprite(p_screen, &general_spritesheet, BULLET_SPRITE, pos, 0);
             }
             else
             {
-                newBullet->bullet_sprite = newSprite(p_screen, BULLET_E_SPRITE, pos, 0);
+                newBullet->bullet_sprite = newSprite(p_screen, &general_spritesheet, BULLET_E_SPRITE, pos, 0);
             }
             
             newBullet->bulletBox = newCollisionBox(pos, createVector2D(12, 20));

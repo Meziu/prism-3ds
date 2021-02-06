@@ -43,8 +43,10 @@ typedef struct
 extern Alien aliens[ALIEN_MAX];
 extern Shooter shooters[SHOOTER_MAX];
 
-extern size_t alienCount;
-extern size_t shooterCount;
+extern uint8_t alienCount;
+extern uint8_t shooterCount;
+
+extern C2D_SpriteSheet shooterAnimations;
 
 Alien* newAlien(int prailID);
 Shooter* newShooter(int prailID);

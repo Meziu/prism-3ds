@@ -1,6 +1,8 @@
 #include "main.h"
 
-int currentScene;
+uint8_t currentScene;
+
+C2D_SpriteSheet general_spritesheet;
 
 u32 kDown;
 
@@ -12,7 +14,7 @@ void killEverything()
 	killAllSprites();
 }
 
-void changeScene(int new_scene)
+void changeScene(uint8_t new_scene)
 {
 	killEverything();
 	
@@ -51,12 +53,8 @@ int main()
 	romfsInit();
 	nathanInit3dsSound();
 
-
-	// audio stuff
-    nathanLoadSoundEffect(&explosion, "romfs:/audio/Enemies/explosion.ogg");
-    nathanLoadSoundEffect(&enemyShoot, "romfs:/audio/Enemies/shoot_shooterenemy.ogg");
-    nathanLoadSoundEffect(&playerShoot, "romfs:/audio/Player/shoot_spaceship.ogg");
-    nathanLoadSoundEffect(&playerHurt, "romfs:/audio/Player/hit.ogg");
+	general_spritesheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
+	shooterAnimations = C2D_SpriteSheetLoad("romfs:/gfx/shootersprites.t3x");
 
 	newFont("romfs:/gfx/arcade.bcfnt");
 	initAllGraphics();
