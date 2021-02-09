@@ -16,11 +16,11 @@ typedef struct
     int velocity;
     CollisionBox alienBox;
 
-    int movementTimer;
+    uint16_t movementTimer;
 
     bool alive;
 
-    int railID;
+    uint8_t railID;
     Sprite* alien_sprite;
 } Alien;
 
@@ -30,13 +30,13 @@ typedef struct
     float velocity;
     CollisionBox shooterBox;
 
-    int movementTimer;
-    int shootingTimer;
-    int animationCount;
+    uint16_t movementTimer;
+    uint16_t shootingTimer;
+    uint8_t animationCount;
 
     bool alive;
 
-    int railID;
+    uint8_t railID;
     Sprite* shooter_sprite;
 } Shooter;
 

@@ -52,7 +52,7 @@ int main()
 
 	romfsInit();
 	nathanInit3dsSound();
-
+	
 	general_spritesheet = C2D_SpriteSheetLoad("romfs:/gfx/sprites.t3x");
 	shooterAnimations = C2D_SpriteSheetLoad("romfs:/gfx/shootersprites.t3x");
 

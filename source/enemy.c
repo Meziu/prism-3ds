@@ -72,7 +72,7 @@ Shooter* newShooter(int p_railID)
             nShooter->shooterBox = newCollisionBox(nShooter->position, createVector2D(32, 32));
 
             nShooter->alive = true;
-            nShooter->movementTimer = 120;
+            nShooter->movementTimer = ((float)rand()/(float)RAND_MAX)*120;
             nShooter->shootingTimer = 102;
             nShooter->animationCount = 0;
             nShooter->railID = p_railID;
