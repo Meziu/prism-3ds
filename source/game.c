@@ -42,7 +42,7 @@ void readGameValues()
     FILE* savefile_r;
     savefile_r = fopen("sdmc:/3ds/prism_savedata.txt", "r");
 
-    if (savefile_r == NULL)
+    if (!savefile_r)
     {
         game_chosenDifficulty = DIF_NORMIE;
         game_highScore = 0;

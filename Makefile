@@ -46,6 +46,10 @@ APP_AUTHOR  	:= Meziu210
 APP_DESCRIPTION := Port of the homonymus Godot3 game by me!
 ICON			:= icon.png
 
+VERSION_MAJOR := 1
+VERSION_MINOR := 0
+VERSION_MICRO := 0
+
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
@@ -170,6 +174,8 @@ endif
 #---------------------------------------------------------------------------------
 all: clean $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(ROMFS_FONTFILES) $(T3XHFILES)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
+	@makerom -f cia -o not_the_prism.cia -rsf not_the_prism.rsf -target t -exefslogo -elf not_the_prism.elf -icon not_the_prism.smdh -banner prism-banner.bnr -major $(VERSION_MAJOR) -minor $(VERSION_MINOR) -micro $(VERSION_MICRO)
+	@echo built ... not_the_prism.cia
 
 $(BUILD):
 	@mkdir -p $@
@@ -183,6 +189,7 @@ ifneq ($(DEPSDIR),$(BUILD))
 $(DEPSDIR):
 	@mkdir -p $@
 endif
+
 
 #---------------------------------------------------------------------------------
 clean:
